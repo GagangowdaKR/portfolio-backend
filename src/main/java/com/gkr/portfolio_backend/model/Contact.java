@@ -16,7 +16,11 @@ public class Contact {
     private String id;
     private String name;
     private String email;
+    private String phone;
     private String subject;
     private String message;
+    private String profession;
+    private Boolean isResumeRequest;
+    private Boolean isContactRequest;
     private LocalDateTime submittedAt = LocalDateTime.now();
 }

@@ -23,6 +23,11 @@ public class ContactServiceImpl implements ContactService {
     private String configuredEmail;
 
     @Override
+    public Contact save(Contact contact) {
+        return contactRepository.save(contact);
+    }
+
+    @Override
     public Contact saveAndNotify(Contact contact) {
         // 1. Permanently back up form into MongoDB Atlas
         Contact savedContact = contactRepository.save(contact);

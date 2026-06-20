@@ -1,6 +1,8 @@
 package com.gkr.portfolio_backend.controller;
 
+import com.gkr.portfolio_backend.model.Contact;
 import com.gkr.portfolio_backend.model.Resume;
+import com.gkr.portfolio_backend.records.ResponseMessage;
 import com.gkr.portfolio_backend.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +19,15 @@ public class ResumeController {
 
     @Autowired
     private ResumeService resumeService;
+
+    @PostMapping("/request")
+    public ResponseEntity<ResponseMessage> requestResume(@RequestBody Contact contact) {
+        boolean access = resumeService.provideResumeRequest(contact);
+        if (access) {
+            return ResponseEntity.ok().body(new ResponseMessage("Resume request accepted"));
+        }
+        return ResponseEntity.badRequest().body(new ResponseMessage("Resume request rejected"));
+    }
 
     // Upload endpoint (used by you via Postman/Dashboard to refresh your CV)
     @PostMapping("/upload")
