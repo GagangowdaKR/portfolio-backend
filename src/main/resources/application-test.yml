@@ -1,0 +1,20 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  data:
+    mongodb:
+      uri: "mongodb+srv://gagan:root@gkr-portfolio-cluster.ddorknt.mongodb.net/gkr_portfolio?appName=GKR-Portfolio-Cluster"
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:gagandarshan22@gmail.com}
+    password: ${MAIL_PASSWORD:akrodkaxyywlrcvy}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
