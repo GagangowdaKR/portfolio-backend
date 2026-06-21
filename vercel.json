@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "builds": [
+    {
+      "src": "build.gradle",
+      "use": "@vercel/java"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/gkr/(.*)",
+      "dest": "build.gradle"
+    }
+  ]
+}
