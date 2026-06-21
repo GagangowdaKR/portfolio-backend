@@ -22,7 +22,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository resumeRepository;
     private final ContactService contactService;
-    private static final Integer RESUME_DOWNLOAD_COUNT = 0;
+    private static Integer RESUME_DOWNLOAD_COUNT = 0;
 
     public ResumeServiceImpl(ResumeRepository resumeRepository,
                              ContactService contactService) {
@@ -49,7 +49,9 @@ public class ResumeServiceImpl implements ResumeService {
         if (resumes.isEmpty()) {
             log.info("No files were found in database, Resumes List count : {}", resumes.size());
         }
-        log.info("Resume downloaded {}", RESUME_DOWNLOAD_COUNT);
+
+        log.info("Resume downloaded {}", ++RESUME_DOWNLOAD_COUNT);
+
         return resumes.get(0);
     }
 

@@ -18,3 +18,8 @@ spring:
           auth: true
           starttls:
             enable: true
+
+app:
+  cors:
+    allowed-origins:
+      - https://gkr-portfolio.vercel.app # Update with proper prod/accept origin link
