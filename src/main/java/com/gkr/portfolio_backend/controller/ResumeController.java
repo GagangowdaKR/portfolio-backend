@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/resume")
-//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 public class ResumeController {
 
     @Autowired

@@ -1,13 +1,14 @@
-//package com.gkr.portfolio_backend;
-//
-//import org.junit.jupiter.api.Test;
-//import org.springframework.boot.test.context.SpringBootTest;
-//
-//@SpringBootTest
-//class PortfolioBackendApplicationTests {
-//
-//	@Test
-//	void contextLoads() {
-//	}
-//
-//}
+package com.gkr.portfolio_backend;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+@SpringBootTest
+class PortfolioBackendApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

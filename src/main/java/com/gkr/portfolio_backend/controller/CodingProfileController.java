@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/coding")
+@CrossOrigin(origins = "*")
 public class CodingProfileController {
 
     @Autowired
