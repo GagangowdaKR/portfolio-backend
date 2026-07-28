@@ -1,10 +1,14 @@
 package com.gkr.portfolio_backend.controller;
 
+import com.gkr.portfolio_backend.dto.ApiResponse;
 import com.gkr.portfolio_backend.model.Contact;
 import com.gkr.portfolio_backend.service.ContactService;
+import javafx.util.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -14,9 +18,16 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
 
-    @PostMapping
-    public ResponseEntity<Contact> submitContactForm(@RequestBody Contact contact) {
-        return ResponseEntity.ok(contactService.saveAndNotify(contact));
+    @PostMapping("/request")
+    public ResponseEntity<ApiResponse> submitContactForm(@RequestBody Contact contact) {
+        contactService.saveAndNotify(contact);
+        return ResponseEntity.ok(
+                ApiResponse.builder()
+                        .message("Quick Connect Request is Created !!")
+                        .data(contact)
+                        .timestamp(LocalDateTime.now())
+                        .build()
+        );
     }
 
     @GetMapping

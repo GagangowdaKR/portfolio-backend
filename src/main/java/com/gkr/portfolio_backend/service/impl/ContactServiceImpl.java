@@ -20,7 +20,10 @@ public class ContactServiceImpl implements ContactService {
     private MailUtils mailUtils;
 
     @Value("${spring.mail.username}")
-    private String configuredEmail;
+    private String emailFrom;
+
+    @Value("${gkr.util.mail}")
+    private String selfEmail;
 
     @Override
     public Contact save(Contact contact) {
@@ -29,30 +32,47 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact saveAndNotify(Contact contact) {
-        // 1. Permanently back up form into MongoDB Atlas
-        Contact savedContact = contactRepository.save(contact);
 
-        // 2. Bind parameters tightly into your clean Java Record contract
-        MailPayload mailPayload = new MailPayload(
-                contact.getName(),
-                contact.getEmail(),
-                contact.getSubject(),
-                contact.getMessage()
-        );
+        /** 1. Save the Contacts Details In DB */
+        contact.setIsContactRequest(Boolean.TRUE);
+        Contact savedContact = save(contact);
 
-        // 3. Delegate execution directly to the Mail utility using the record bindings
+        MailPayload mailPayload = createMailPayload(contact);
+
+        /** 2. Send Contact request mail to SELF */
         try {
             mailUtils.sendSimpleEmail(
-                    configuredEmail,
-                    configuredEmail,
-                    mailPayload.toEmailSubject(), // Evaluates the record subject formatting
-                    mailPayload.toEmailBody()     // Evaluates the record text block parsing
+                    emailFrom,
+                    selfEmail,
+                    mailPayload.toSelfEmailSubject(),
+                    mailPayload.toSelfEmailBody()
             );
         } catch (Exception e) {
             System.err.println("Mailing execution failure via MailUtils record binding: " + e.getMessage());
         }
 
+        /** 3. Send confirmation mail to visitors */
+        try {
+            mailUtils.sendHtmlEmail(
+                    selfEmail,
+                    contact.getEmail(),
+                    mailPayload.toConfirmEmailSubject(),
+                    mailPayload.toConfirmEmailBody()
+            );
+        } catch (Exception e) {
+            System.err.println("Mailing execution failure via MailUtils record binding: " + e.getMessage());
+        }
         return savedContact;
+    }
+
+    private MailPayload createMailPayload(Contact contact) {
+        return new MailPayload(
+                contact.getName(),
+                contact.getEmail(),
+                contact.getSubject(),
+                contact.getProfession(),
+                contact.getMessage()
+        );
     }
 
     @Override
