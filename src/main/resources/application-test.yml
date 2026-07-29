@@ -10,8 +10,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${MAIL_USERNAME:gkr.techie@gmail.com}
-    password: ${MAIL_PASSWORD:null}
+    username: ${MAIL_USERNAME} #Add Email follewed by :abc@abc.com for local development
+    password: ${MAIL_PASSWORD} #Add App Password follewed by :zzzzzzzzzzzzz for local development
     properties:
       mail:
         smtp:
