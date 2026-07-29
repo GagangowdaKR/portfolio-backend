@@ -5,12 +5,16 @@ import com.gkr.portfolio_backend.model.Contact;
 import com.gkr.portfolio_backend.repository.ContactRepository;
 import com.gkr.portfolio_backend.service.ContactService;
 import com.gkr.portfolio_backend.util.MailUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
+@Slf4j
 public class ContactServiceImpl implements ContactService {
 
     @Autowired
@@ -31,11 +35,14 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public Contact saveAndNotify(Contact contact) {
 
         /** 1. Save the Contacts Details In DB */
         contact.setIsContactRequest(Boolean.TRUE);
+        contact.setSubject(Contact.Subject.CONTACT_REQUEST.toString());
         Contact savedContact = save(contact);
+        log.info("Saved contact with id {}, name {}", savedContact.getId(), savedContact.getName().toUpperCase());
 
         MailPayload mailPayload = createMailPayload(contact);
 
@@ -47,6 +54,7 @@ public class ContactServiceImpl implements ContactService {
                     mailPayload.toSelfEmailSubject(),
                     mailPayload.toSelfEmailBody()
             );
+            log.info("Contact Information are mailed to Gagan.");
         } catch (Exception e) {
             System.err.println("Mailing execution failure via MailUtils record binding: " + e.getMessage());
         }
@@ -59,6 +67,7 @@ public class ContactServiceImpl implements ContactService {
                     mailPayload.toConfirmEmailSubject(),
                     mailPayload.toConfirmEmailBody()
             );
+            log.info("Confirm email has been sent to {}.", contact.getName());
         } catch (Exception e) {
             System.err.println("Mailing execution failure via MailUtils record binding: " + e.getMessage());
         }
@@ -69,7 +78,7 @@ public class ContactServiceImpl implements ContactService {
         return new MailPayload(
                 contact.getName(),
                 contact.getEmail(),
-                contact.getSubject(),
+                Contact.Subject.CONTACT_REQUEST,
                 contact.getProfession(),
                 contact.getMessage()
         );

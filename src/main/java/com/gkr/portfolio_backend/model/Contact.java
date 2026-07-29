@@ -23,4 +23,9 @@ public class Contact {
     private Boolean isResumeRequest;
     private Boolean isContactRequest;
     private LocalDateTime submittedAt = LocalDateTime.now();
+
+    public enum Subject{
+        RESUME_REQUEST,
+        CONTACT_REQUEST
+    }
 }

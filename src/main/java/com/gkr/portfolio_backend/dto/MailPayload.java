@@ -1,6 +1,8 @@
 package com.gkr.portfolio_backend.dto;
 
-public record MailPayload(String name, String email, String subject, String profession, String message) {
+import com.gkr.portfolio_backend.model.Contact;
+
+public record MailPayload(String name, String email, Contact.Subject subject, String profession, String message) {
 
     /**
      * Dynamically generates a clean, structured text body.
