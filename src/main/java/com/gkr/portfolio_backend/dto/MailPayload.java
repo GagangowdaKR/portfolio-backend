@@ -10,15 +10,53 @@ public record MailPayload(String name, String email, Contact.Subject subject, St
      */
     public String toSelfEmailBody() {
         return """
-               You have received a new message from your portfolio website!
-               
-               👤 Name: %s
-               📧 Email: %s
-               💼 Profession: %s
-               
-               💬 Message:
-                          %s
-               """.formatted(name, email, profession, message);
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f5; margin: 0; padding: 20px; color: #18181b; }
+                    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e4e4e7; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+                    .header { background-color: #09090b; color: #ffffff; padding: 24px; text-align: center; }
+                    .header h2 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
+                    .content { padding: 24px; }
+                    .field { margin-bottom: 16px; font-size: 14px; }
+                    .label { font-weight: 600; color: #71717a; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+                    .value { color: #09090b; font-size: 15px; font-weight: 500; }
+                    .message-box { background-color: #f4f4f5; border-left: 4px solid #09090b; padding: 16px; border-radius: 0 6px 6px 0; margin-top: 8px; white-space: pre-wrap; word-break: break-word; color: #27272a; line-height: 1.5; }
+                    .footer { background-color: #fafafa; padding: 16px; text-align: center; font-size: 12px; color: #a1a1aa; border-top: 1px solid #e4e4e7; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h2>📬 New Portfolio Inquiry</h2>
+                    </div>
+                    <div class="content">
+                        <div class="field">
+                            <span class="label">Name</span>
+                            <div class="value">%s</div>
+                        </div>
+                        <div class="field">
+                            <span class="label">Email</span>
+                            <div class="value">%s</div>
+                        </div>
+                        <div class="field">
+                            <span class="label">Profession</span>
+                            <div class="value">%s</div>
+                        </div>
+                        <div class="field" style="margin-top: 20px;">
+                            <span class="label">Message</span>
+                            <div class="message-box">%s</div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        Sent automatically via GKR Portfolio Notification Service
+                    </div>
+                </div>
+            </body>
+            </html>
+            """.formatted(name, email, profession, message);
     }
 
     /**

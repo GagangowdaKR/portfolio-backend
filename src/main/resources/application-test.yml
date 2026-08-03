@@ -24,4 +24,7 @@ spring:
 
 gkr:
   util:
-    mail: gagandarshan22@gmail.com
+    mail: gkr.techie@gmail.com
+  notification:
+    service:
+      url: https://gkr-notification-service.onrender.com/api/notifications/send
