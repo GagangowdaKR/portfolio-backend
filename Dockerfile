@@ -21,7 +21,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Copy compiled jar payload execution wrapper from build layer
-COPY --from=build /app/build/libs/*-SNAPSHOT.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
 
